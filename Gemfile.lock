@@ -107,6 +107,7 @@ DEPENDENCIES
   bcrypt-ruby (~> 3.0.0)
   coffee-rails (~> 3.2.1)
   jquery-rails
+  json
   rails (= 3.2.1)
   sass-rails (~> 3.2.3)
   sqlite3

@@ -1,3 +1,5 @@
+require 'open-uri'
+
 class UsersController < ApplicationController
   # GET /users
   # GET /users.json
