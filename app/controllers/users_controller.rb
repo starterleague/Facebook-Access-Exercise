@@ -32,6 +32,7 @@ class UsersController < ApplicationController
     
     if @user.facebook_access_token
       @image_uri = open("https://graph.facebook.com/me/picture?access_token=#{@user.facebook_access_token}").base_uri
+      @links = open("https://graph.facebook.com/me/links?access_token=#{@user.facebook_access_token}").read
     end
 
     respond_to do |format|
