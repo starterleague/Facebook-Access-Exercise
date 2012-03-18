@@ -4,6 +4,8 @@ FbAccess::Application.routes.draw do
 
   post 'sessions/create'
   get 'sessions/destroy'
+  
+  get 'facebook_callback', :controller => 'users', :action => "facebook_callback"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

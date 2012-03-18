@@ -5,5 +5,13 @@
   <%= @user.email %>
 </p>
 
+<p>
+  <b>Facebook access token:</b>
+  <%= @user.facebook_access_token %>
+</p>
+
+<%= link_to 'Authorize Facebook Access', "https://www.facebook.com/dialog/oauth?
+     client_id=#{ENV['FACEBOOK_APP_ID']}&redirect_uri=http://localhost:3000/facebook_callback" %>
+
 <%= link_to 'Edit', edit_user_path(@user) %> |
 <%= link_to 'Back', users_path %>
