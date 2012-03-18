@@ -2,8 +2,8 @@ require 'open-uri'
 
 class UsersController < ApplicationController
   def facebook_callback
-    if code = params[:code]
-      user = User.find(session[:user_id])
+    user = User.find(session[:user_id])
+    if code = params[:code] && user
       response = open("https://graph.facebook.com/oauth/access_token?client_id=#{ENV['FACEBOOK_APP_ID']}&redirect_uri=http://localhost:3000/facebook_callback&client_secret=#{ENV['FACEBOOK_APP_SECRET']}&code=#{code}").read
       access_token = response.split("&")[0].split("=")[1]
       user.facebook_access_token = access_token
