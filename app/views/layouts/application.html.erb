@@ -7,18 +7,18 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-	<% if session[:user_id].present? %>
-		<p>Signed in as <%= User.find(session[:user_id]).email %>. <%= link_to 'Sign out', '../sessions/destroy' %></p>
+	<% if logged_in? %>
+		<p>Signed in as <%= current_user.email %>. <%= link_to 'Sign out', '../sessions/destroy' %></p>
 	<% else %>
-		<%= form_tag 'sessions/create' do %>
+		<%= form_tag '../sessions/create' do %>
 			<p>
 		    <%= label_tag :email %> <%= text_field_tag :email %>
 		    <%= label_tag :password %> <%= password_field_tag :password %>
 				<%= submit_tag 'Sign In' %>
 			</p>
 		<% end %>
-		<p><%= notice %></p>
 	<% end %>
+	<p><%= notice %></p>
 <%= yield %>
 
 </body>

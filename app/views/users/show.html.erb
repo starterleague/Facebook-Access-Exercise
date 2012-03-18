@@ -1,7 +1,13 @@
-<p id="notice"><%= notice %></p>
+<h3>
+  <%= @user.email %>
+</h3>
+
 <% if @user.facebook_access_token %>
-	<%= image_tag @image_uri %>
 	<table>
+		<tr>
+			<td><%= image_tag @image_uri %></td>
+			<td><h4><%= @name %>'s Shared Links</h4></td>
+		</tr>
 	<% @links.each do |link| %>
 		<tr>
 			<td><%= image_tag link["picture"] %></td>
@@ -12,17 +18,12 @@
 	</table>
 <% end %>
 
-<p>
-  <b>Email:</b>
-  <%= @user.email %>
-</p>
-
-<p>
-  <b>Facebook access token:</b>
-  <%= @user.facebook_access_token %>
-</p>
-
-<%= link_to 'Authorize Facebook Access', "https://www.facebook.com/dialog/oauth?client_id=#{ENV['FACEBOOK_APP_ID']}&redirect_uri=http://localhost:3000/facebook_callback&scope=read_stream" %>
-
-<%= link_to 'Edit', edit_user_path(@user) %> |
+<% if current_user == @user %>
+	<%= link_to 'Authorize Facebook Access', "https://www.facebook.com/dialog/oauth?client_id=#{ENV['FACEBOOK_APP_ID']}&redirect_uri=http://localhost:3000/facebook_callback&scope=read_stream" %>
+	|
+	<%= link_to 'Edit', edit_user_path(@user) %>
+	|
+<% end %>
 <%= link_to 'Back', users_path %>
+
+Access token: <%= @user.facebook_access_token %>

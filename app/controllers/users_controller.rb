@@ -2,13 +2,12 @@ require 'open-uri'
 
 class UsersController < ApplicationController
   def facebook_callback
-    user = User.find(session[:user_id])
-    if code = params[:code] && user
+    code = params[:code]
+    if logged_in? && code
       response = open("https://graph.facebook.com/oauth/access_token?client_id=#{ENV['FACEBOOK_APP_ID']}&redirect_uri=http://localhost:3000/facebook_callback&client_secret=#{ENV['FACEBOOK_APP_SECRET']}&code=#{code}").read
       access_token = response.split("&")[0].split("=")[1]
-      user.facebook_access_token = access_token
-      user.save
-      redirect_to user_url(user), :notice => "Facebook access granted."
+      current_user.update_attributes :facebook_access_token => access_token
+      redirect_to user_url(current_user), :notice => "Facebook access granted."
     else
       redirect_to root_url, :notice => "Facebook access not granted."
     end
@@ -31,7 +30,11 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     
     if @user.facebook_access_token
+      me_response = open("https://graph.facebook.com/me?access_token=#{@user.facebook_access_token}").read
+      @name = JSON.parse(me_response)["name"]
+      
       @image_uri = open("https://graph.facebook.com/me/picture?access_token=#{@user.facebook_access_token}").base_uri
+      
       links_response = open("https://graph.facebook.com/me/links?access_token=#{@user.facebook_access_token}").read
       @links = JSON.parse(links_response)["data"]
     end
@@ -62,9 +65,10 @@ class UsersController < ApplicationController
   # POST /users.json
   def create
     @user = User.new(params[:user])
-
+    
     respond_to do |format|
       if @user.save
+        session[:user_id] = @user.id
         format.html { redirect_to @user, notice: 'User was successfully created.' }
         format.json { render json: @user, status: :created, location: @user }
       else
