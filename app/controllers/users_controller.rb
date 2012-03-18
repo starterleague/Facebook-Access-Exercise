@@ -32,7 +32,8 @@ class UsersController < ApplicationController
     
     if @user.facebook_access_token
       @image_uri = open("https://graph.facebook.com/me/picture?access_token=#{@user.facebook_access_token}").base_uri
-      @links = open("https://graph.facebook.com/me/links?access_token=#{@user.facebook_access_token}").read
+      links_response = open("https://graph.facebook.com/me/links?access_token=#{@user.facebook_access_token}").read
+      @links = JSON.parse(links_response)["data"]
     end
 
     respond_to do |format|

@@ -1,8 +1,15 @@
 <p id="notice"><%= notice %></p>
 <% if @user.facebook_access_token %>
 	<%= image_tag @image_uri %>
-	<%= @links %>
-	
+	<table>
+	<% @links.each do |link| %>
+		<tr>
+			<td><%= image_tag link["picture"] %></td>
+			<td><%= link_to link["name"], link["link"] %></td>
+			<td><%= link["description"] %></td>
+		</tr>
+	<% end %>
+	</table>
 <% end %>
 
 <p>
