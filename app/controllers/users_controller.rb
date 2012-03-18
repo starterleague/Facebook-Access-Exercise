@@ -29,6 +29,10 @@ class UsersController < ApplicationController
   # GET /users/1.json
   def show
     @user = User.find(params[:id])
+    
+    if @user.facebook_access_token
+      @image_uri = open("https://graph.facebook.com/me/picture?access_token=#{@user.facebook_access_token}").base_uri
+    end
 
     respond_to do |format|
       format.html # show.html.erb

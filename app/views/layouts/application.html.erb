@@ -8,7 +8,7 @@
 </head>
 <body>
 	<% if session[:user_id].present? %>
-		<p>Signed in as <%= User.find(session[:user_id]).email %>. <%= link_to 'Sign out', 'sessions/destroy' %></p>
+		<p>Signed in as <%= User.find(session[:user_id]).email %>. <%= link_to 'Sign out', '../sessions/destroy' %></p>
 	<% else %>
 		<%= form_tag 'sessions/create' do %>
 			<p>

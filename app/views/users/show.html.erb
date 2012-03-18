@@ -1,4 +1,7 @@
 <p id="notice"><%= notice %></p>
+<% if @image_uri %>
+	<%= image_tag @image_uri %>
+<% end %>
 
 <p>
   <b>Email:</b>
