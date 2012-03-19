@@ -2,13 +2,13 @@
   <%= @user.email %>
 </h3>
 
-<% if @user.facebook_access_token %>
+<% if @user.facebook_name %>
 	<table>
 		<tr>
-			<td><%= image_tag @image_uri %></td>
-			<td><h4><%= @name %>'s Shared Links</h4></td>
+			<td><%= image_tag @user.facebook_image_uri %></td>
+			<td><h4><%= @user.facebook_name %>'s Shared Links</h4></td>
 		</tr>
-	<% @links.each do |link| %>
+	<% @user.facebook_links.each do |link| %>
 		<tr>
 			<td><%= image_tag link["picture"] %></td>
 			<td><%= link_to link["name"], link["link"] %></td>
